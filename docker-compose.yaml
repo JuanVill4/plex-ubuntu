@@ -62,3 +62,19 @@ services:
       - TORRENT_PLUGIN=transmission
       - FG_WEBUI_PASSWD=p3l4d0_N3RD # la puedes cambiar por la que quieras
     restart: unless-stopped
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/Monterrey
+    volumes:
+      - ${STORAGE}/radarr/data:/config
+      - ${MEDIA}/Movies:/movies #optional
+      - ${STORAGE}/downloads:/downloads #optional
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
