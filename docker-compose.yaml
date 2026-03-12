@@ -2,6 +2,7 @@ services:
 
   samba:
     image: dperson/samba # no hay tag con versiones, solo latest
+    container_name: samba
     restart: always
     command: '-u "pi;password" -s "media;/media;yes;no" -s "downloads;/downloads;yes;no"'
     stdin_open: true
@@ -17,6 +18,7 @@ services:
 
   plex:
     image: jaymoulin/plex
+    container_name: plex
     expose:
       - 32400
       - 33400
@@ -35,6 +37,7 @@ services:
 
   transmission:
     image : jaymoulin/transmission
+    container_name: transmission
     command: transmission-daemon -f -g /config
     volumes:
       - ./transmission:/config
@@ -49,6 +52,7 @@ services:
 
   flexget:
     image: wiserain/flexget:3.5
+    container_name: flexget
     volumes:
       - ./flexget:/config
       - ./flexget/custom-cont-init.d:/custom-cont-init.d
@@ -69,12 +73,27 @@ services:
     environment:
       - PUID=1001
       - PGID=1001
-      - TZ=America/Monterrey
+      - TZ=Etc/UTC
     volumes:
       - ${STORAGE}/radarr/data:/config
       - ${MEDIA}/Movies:/movies #optional
-      - ${STORAGE}/downloads:/downloads #optional
+      - ${STORAGE}/torrents:/downloads #optional
     ports:
       - 7878:7878
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=Etc/UTC
+    volumes:
+      - /${STORAGE}/sonarr/data:/config
+      - ${MEDIA}/TV:/tv #optional
+      - ${STORAGE}/torrents:/downloads #optional
+    ports:
+      - 8989:8989
     restart: unless-stopped
 
