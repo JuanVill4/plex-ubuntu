@@ -41,7 +41,7 @@ tasks:
       regexp: '.*\.(avi|mkv|mp4)$'
       recursive: yes
     accept_all: yes
-    thetvdb_lookup: yes
+    imdb_lookup: yes
     require_field: series_name
     all_series:
       parse_only: yes
@@ -50,9 +50,9 @@ tasks:
       on_output:
         for_entries: |
           if mediainfo "{{ location }}" | grep EAC3; then
-            mkdir -p "/storage/TV/{{ tvdb_series_name }}/Season {{ series_season }}" && ffmpeg -hwaccel auto -y -i "{{ location }}" -map 0 -c:s copy -c:v copy -c:a ac3 -b:a 640k "/storage/TV/{{ tvdb_series_name }}/Season {{ series_season }}/{{ tvdb_series_name }} - {{ series_id }}{{ location | pathext }}"
+            mkdir -p "/storage/TV/{{ series_name }}/Season {{ series_season }}" && ffmpeg -hwaccel auto -y -i "{{ location }}" -map 0 -c:s copy -c:v copy -c:a ac3 -b:a 640k "/storage/TV/{{ series_name }}/Season {{ series_season }}/{{ series_name }} - {{ series_id }}{{ location | pathext }}"
           else
-            mkdir -p "/storage/TV/{{ tvdb_series_name }}/Season {{ series_season }}" && cp "{{ location }}" "/storage/TV/{{ tvdb_series_name }}/Season {{ series_season }}/{{ tvdb_series_name }} - {{ series_id }}{{ location | pathext }}"
+            mkdir -p "/storage/TV/{{ series_name }}/Season {{ series_season }}" && cp "{{ location }}" "/storage/TV/{{ series_name }}/Season {{ series_season }}/{{ series_name }} - {{ series_id }}{{ location | pathext }}"
           fi
   sort_movies:
     priority: 2
@@ -63,7 +63,7 @@ tasks:
       recursive: yes
     accept_all: yes
     require_field: movie_name
-    imdb_lookup: yes
+    tmdb_lookup: yes
     exec:
       auto_escape: yes
       on_output:

@@ -51,7 +51,7 @@ services:
     restart: unless-stopped
 
   flexget:
-    image: wiserain/flexget:3.5
+    image: wiserain/flexget
     container_name: flexget
     volumes:
       - ./flexget:/config
