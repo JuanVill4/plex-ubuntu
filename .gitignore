@@ -1,5 +1,9 @@
 media/*
 plex/*
+radarr/*
+prowlarr/*
+sonarr/*
+overseer/*
 .bash*
 .profile*
 .ssh*
