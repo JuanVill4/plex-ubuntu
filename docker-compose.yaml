@@ -50,22 +50,22 @@ services:
       - 9091
     restart: unless-stopped
 
-  flexget:
-    image: wiserain/flexget
-    container_name: flexget
-    volumes:
-      - ./flexget:/config
-      - ./flexget/custom-cont-init.d:/custom-cont-init.d
-      - ${STORAGE}/torrents:/downloads
-      - ${MEDIA}:/storage
-    ports:
-      - 5050:5050
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TORRENT_PLUGIN=transmission
-      - FG_WEBUI_PASSWD=p3l4d0_N3RD # la puedes cambiar por la que quieras
-    restart: unless-stopped
+#  flexget:
+#    image: wiserain/flexget
+#    container_name: flexget
+#    volumes:
+#      - ./flexget:/config
+#      - ./flexget/custom-cont-init.d:/custom-cont-init.d
+#      - ${STORAGE}/torrents:/downloads
+#      - ${MEDIA}:/storage
+#    ports:
+#      - 5050:5050
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TORRENT_PLUGIN=transmission
+#      - FG_WEBUI_PASSWD=p3l4d0_N3RD # la puedes cambiar por la que quieras
+#    restart: unless-stopped
 
   prowlarr:
     image: linuxserver/prowlarr:latest
@@ -76,6 +76,8 @@ services:
       - TZ=America/Monterrey
     volumes:
       - ./prowlarr:/config
+    extra_hosts:
+      - "plex:host-gateway"
     ports:
       - 9696:9696
     restart: unless-stopped
@@ -91,6 +93,8 @@ services:
       - ./radarr:/config
       - ${MEDIA}:/media       # Donde vive tu librería
       - ${STORAGE}/torrents:/downloads # Donde descarga Transmission
+    extra_hosts:
+      - "plex:host-gateway"
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -106,6 +110,8 @@ services:
       - ./sonarr:/config
       - ${MEDIA}:/media       # Donde vive tu librería
       - ${STORAGE}/torrents:/downloads # Donde descarga Transmission
+    extra_hosts:
+      - "plex:host-gateway"
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -136,6 +142,8 @@ services:
     volumes:
       - ./bazarr:/config
       - ${MEDIA}:/media
+    extra_hosts:
+      - "plex:host-gateway"
     ports:
       - '6767:6767'
 
@@ -148,6 +156,8 @@ services:
       - TZ=America/Monterrey
     volumes:
       - ./overseerr:/app/config
+    extra_hosts:
+      - "plex:host-gateway"
     ports:
       - 5055:5055
     restart: unless-stopped

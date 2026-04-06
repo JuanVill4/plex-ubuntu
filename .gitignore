@@ -3,7 +3,8 @@ plex/*
 radarr/*
 prowlarr/*
 sonarr/*
-overseer/*
+bazarr/*
+overseerr/*
 .bash*
 .profile*
 .ssh*
